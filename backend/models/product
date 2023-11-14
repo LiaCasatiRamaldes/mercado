@@ -1,0 +1,18 @@
+const bcrypt = require("bcryptjs");
+var mongoose = require("mongoose");
+var Schema = mongoose.Schema;
+var mongooseUniqueValidator = require("mongoose-unique-validator");
+
+var schema = new Schema({
+  name: { type: String, required: true },
+  description: { type: String, required: true },
+  price: { type: number, required: true },
+});
+
+schema.methods.comparePassword = function (loggingUserPassword) {
+  return bcrypt.compare(loggingUserPassword, this.password);
+};
+
+schema.plugin(mongooseUniqueValidator);
+
+module.exports = mongoose.model("Product", schema);

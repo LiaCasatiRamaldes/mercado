@@ -2,17 +2,19 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { Product, products } from '../products';
+import { CartService } from '../cart.service';
 
 @Component({
   selector: 'app-product-details',
   templateUrl: './product-details.component.html',
   styleUrl: './product-details.component.css'
 })
-export class ProductDetailsComponent {
+export class ProductDetailsComponent implements OnInit{
   
   product: Product | undefined;
 
-  constructor(private route: ActivatedRoute) { }
+  constructor(private route: ActivatedRoute, 
+              private cartService: CartService) { }
 
   ngOnInit() {
     // Pegando id da rota.
@@ -23,6 +25,13 @@ export class ProductDetailsComponent {
     this.product = products.find(product => product.id === productIdFromRoute);
   }
   
+  addToCart(product: Product) {
+    this.cartService.addToCart(product);
+    window.alert('Seu produto foi adicionado ao carrinho!');
+  }
+
+
+
 }
 
 
